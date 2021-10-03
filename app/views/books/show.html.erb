@@ -1,10 +1,20 @@
+<% if @book.errors.any? %>
+ <div id="error_explanation">
+   <h2><%=pluralize(@book.errors.count, "error") %> prohbited ths book from being saved:</h2>
+   <ul><% @book.errors.full_messages.each do |message| %>
+   <li><%= message %></li>
+   <% end %>
+   </ul>
+ </div>
+ <% end %>
+ 
 <div class='container'>
   <div class='row'>
     <div class='col-md-3'>
       <h2>User info</h2>
-      <%= render 'users/info' %>
+      <%= render 'users/info', user: @user %>
       <h2 class="mt-3">New book</h2>
-      <%= render 'form', book: @book %>
+      <%= render 'books/form', book: @new_book %>
     </div>
     <div class='col-md-8 offset-md-1'>
   		<h2>Book detail</h2>
@@ -17,10 +27,12 @@
           </td>
           <td><%= link_to @book.title, book_path(@book) %></td>
           <td><%= @book.body %></td>
+          <td><% if @book.user == current_user %></td>
           <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success edit_book_#{@book.id}" %></td>
           <td><%= link_to 'Destroy', book_path(@book), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger destroy_book_#{@book.id}"%></td>
         </tr>
       </table>
+      <% end %>
     </div>
   </div>
 </div>
