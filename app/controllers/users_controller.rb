@@ -30,6 +30,31 @@ class UsersController < ApplicationController
       render :edit
     end
   end
+  
+  def create
+    current_user.follow(params[:user_id])
+    redirect_to request.referer
+  end
+
+  def destroy
+    current_user.unfollow(params[:user_id])
+    redirect_to request.referer  
+  end
+  
+  def followings
+    user = User.find(params[:user_id])
+    @users = user.followings.page(params[:page])
+  end
+
+  def followers
+    user = User.find(params[:user_id])
+    @users = user.followers.page(params[:page]).per(3).reverse_order
+  end
+  
+  def following?(user)
+    followings.include?(user)
+  end
+end
 
   private
   def user_params
@@ -42,4 +67,3 @@ class UsersController < ApplicationController
       redirect_to user_path(current_user)
     end
   end
-end
