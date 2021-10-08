@@ -17,6 +17,7 @@
       <%= render 'books/form', book: @new_book %>
     </div>
     <div class='col-md-8 offset-md-1'>
+      <%= render 'searchs/form' %>
   		<h2>Book detail</h2>
   		<table class='table'>
   		  <tr>
@@ -34,21 +35,9 @@
         <td>
         <p>コメント件数：<%= @book.post_comments.count %></p>
         </td>
-        <td>
-           <% if @book.favorited_by?(current_user) %>
-          <p>
-           <%= link_to book_favorites_path(@book), method: :delete do %>
-           <%= @book.favorites.count %> いいね
-           <% end %>
-          </p>
-           <% else %>
-          <p>
-           <%= link_to book_favorites_path(@book), method: :post do %>
-           <%= @book.favorites.count %> いいね
-           <% end %>
-          </p>
-           <% end %>
-        </td>
+        <td class="favorite-btn">
+          <%= render "favorites/favorite-btn", book: @book %>
+          </td>
        </tr>
       </table>
       <table>
