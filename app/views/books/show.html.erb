@@ -40,32 +40,10 @@
           </td>
        </tr>
       </table>
-      <table>
-        <% @book.post_comments.each do |post_comment| %>
-        <tr>
-          <td>
-          <p><%= image_tag("no-image-icon.jpg") %></p>
-          <p><%= post_comment.user.name %></p>
-          </td>
-          <td>
-          <%= post_comment.comment %>
-          </td>
-          <td>
-            <% if post_comment.user == current_user %>
-            <div>
-            <%= link_to "削除", book_post_comment_path(post_comment.book, post_comment), method: :delete %>
-            </div>
-            <% end %>
-          </td>
-        <% end %>
-        </tr>
-      </table>
-      <table>
-        <%= form_with(model:[@book, @post_comment], local: true) do |f| %>
-         <%= f.text_area :comment, rows:'5',placeholder: "コメントをここに" %>
-         <%= f.submit "送信する" %>
-       <% end %>
-      </table>
+      
+      <div class="comments_">
+        <%= render "post_comments/post_comment", book: @book, post_comment: @post_comment %>
+      </div>
     </div>
   </div>
 </div>
